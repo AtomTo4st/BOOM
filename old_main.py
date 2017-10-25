@@ -17,10 +17,12 @@ player_1_pos = (screen_w / 4, screen_h / 4)
 player_2_pos = (800 - (screen_w / 4), 800 - (screen_h / 4))
 
 
-player_1_speed = 5
-player_2_speed = 5
+player_1_speed = 6
+player_2_speed = 6
 player_1_rotation = 0
 player_2_rotation = 0
+player_1_gun_rotation = 0
+player_2_gun_rotation = 0
 
 player_1_rotation_plus = 5
 player_2_rotation_plus = 5
@@ -56,6 +58,7 @@ k_left = False
 k_right = False
 k_w = False
 k_s = False
+k_space = False 
 
 
 while fail == False:
@@ -73,6 +76,8 @@ while fail == False:
                 k_w = True
             if event.key == pygame.K_s:
                 k_s = True
+            if event.key == pygame.K_SPACE:
+                k_space = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 k_left = False
@@ -82,6 +87,8 @@ while fail == False:
                 k_w = False
             if event.key == pygame.K_s:
                 k_s = False
+            if event.key == pygame.K_SPACE:
+                k_space = False
             
     if k_left:
         player_1_rotation += player_1_rotation_plus
@@ -91,7 +98,10 @@ while fail == False:
         player_2_rotation += player_2_rotation_plus
     if k_s:
         player_2_rotation -= player_2_rotation_plus
-        
+    if k_space:
+        player_1_speed = 3
+    else:
+        player_1_speed = 6       
     if player_1_rotation >= 360:
         player_1_rotation = 1
     if player_2_rotation >= 360:
@@ -103,8 +113,7 @@ while fail == False:
     show_player(img_player_2_tank, player_2_pos, player_2_rotation)
     show_player(img_player_1_gun, player_1_pos, player_1_rotation)
     show_player(img_player_2_gun, player_2_pos, player_2_rotation)
-    show_player(img_player_1_gun, player_1_pos, -player_1_rotation)
-    show_player(img_player_2_gun, player_2_pos, -player_2_rotation)
+    
     
     '''
     rotated_img_player_1_tank = pygame.transform.rotate(img_player_1_tank, player_1_rotation + 270)
@@ -112,24 +121,8 @@ while fail == False:
     rect_player_1_tank.center=(player_1_pos[0] - (rect_player_1_tank[2] / 2),player_1_pos[1] - (rect_player_1_tank[2] / 2))
     screen.blit(rotated_img_player_1_tank, (player_1_pos[0] - (rect_player_1_tank[2] / 2),player_1_pos[1] - (rect_player_1_tank[2] / 2)))
     
-    rotated_img_player_1_gun = pygame.transform.rotate(img_player_1_gun, player_1_rotation + 270)
-    rect_player_1_gun = rotated_img_player_1_gun.get_rect()
-    rect_player_1_gun.center=(player_1_pos[0] - (rect_player_1_gun[2] / 2),player_1_pos[1] - (rect_player_1_gun[2] / 2))
-    screen.blit(rotated_img_player_1_gun, (player_1_pos[0] - (rect_player_1_gun[2] / 2),player_1_pos[1] - (rect_player_1_gun[2] / 2)))
-    
-    rotated_img_player_2_tank = pygame.transform.rotate(img_player_2_tank, player_2_rotation + 270)
-    rect_player_2_tank = rotated_img_player_2_tank.get_rect()
-    rect_player_2_tank.center=(player_2_pos[0],player_2_pos[1])
-    screen.blit(rotated_img_player_2_tank, player_2_pos)
-    
-    print(rect_player_1_tank[2])
-    
-    rotated_img_player_2_gun = pygame.transform.rotate(img_player_2_gun, player_2_rotation + 270)
-    rect_player_2_gun = rotated_img_player_2_gun.get_rect()
-    rect_player_2_gun.center=(player_2_pos[0],player_2_pos[1])
-    screen.blit(rotated_img_player_2_gun, player_2_pos)
+    pygame.draw.circle(screen, colors.green, player_1_pos, 5, 0)
     '''
-    #pygame.draw.circle(screen, colors.green, player_1_pos, 5, 0)
     
     
     pygame.display.update()
