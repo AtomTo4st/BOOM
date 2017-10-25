@@ -1,10 +1,10 @@
 import pygame
 import sys
-sys.path.append(../)
+sys.path.append("../")
 
 colors = ["red", "green", "blue", "white"]
 
-class tank:
+class Tank:
     def __init__(self, _id=0, posx=0, posy=0, rot=0, aim=0, speed=5):
         self.id = _id
         self.posx = posx
