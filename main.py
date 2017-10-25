@@ -9,18 +9,16 @@ import os
 pygame.init()
 
 
-
 screen_w = 800
 screen_h = 800
 
-rec_pos_x = screen_w / 2
-rec_pos_y = screen_h / 2
+player_1_pos = (screen_w / 4, screen_h / 4)
 
-rec_w = 100
-rec_h = 100
 
-rec_speed = 5
-rec_rotation = 0
+player_1_speed = 5
+player_2_speed = 5
+player_1_rotation = 0
+player_2_rotation = 0
 
 
 
@@ -33,7 +31,13 @@ def new_pos (old_pos_x, old_pos_y, rotation, speed):
 screen = pygame.display.set_mode((screen_w,screen_h))
 pygame.display.set_caption("B00M")
 
-img_player = pygame.image.load("C:\projects\Hackathon\workspace\Boom\player.png")
+img_player_1_tank = pygame.image.load("assets\pictures\car.png")
+#img_player_1_gun = pygame.image.load("")
+
+#img_player_2_tank = pygame.image.load()
+#img_player_2_gun = pygame.image.load()
+
+
 clock = pygame.time.Clock()
 fail = False
 
@@ -61,16 +65,15 @@ while fail == False:
                 k_right = False
             
     if k_left:
-        rec_rotation += 5
+        player_1_rotation += 5
     if k_right:
-        rec_rotation -= 5
-    rec_pos_x, rec_pos_y = new_pos(rec_pos_x, rec_pos_y, rec_rotation, rec_speed)
-    #pygame.draw.rect(screen, colors.red, (rec_pos_x, rec_pos_y, rec_w, rec_h))
+        player_1_rotation -= 5
+    player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
     
-    rotated_img_player = pygame.transform.rotate(img_player, rec_rotation + 90)
-    rect = rotated_img_player.get_rect()
-    rect.center=(rec_pos_x,rec_pos_y)
-    screen.blit(rotated_img_player, (rec_pos_x,rec_pos_y))
+    rotated_img_player_1_tank = pygame.transform.rotate(img_player_1_tank, player_1_rotation + 270)
+    rect_player_1_tank = rotated_img_player_1_tank.get_rect()
+    rect_player_1_tank.center=(player_1_pos[0],player_1_pos[1])
+    screen.blit(rotated_img_player_1_tank, player_1_pos)
     pygame.display.update()
     clock.tick(30)
     
