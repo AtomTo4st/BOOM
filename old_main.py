@@ -27,6 +27,8 @@ player_2_gun_rotation = 0
 player_1_rotation_plus = 5
 player_2_rotation_plus = 5
 
+player_1_gun_rotation_plus = 2
+player_2_gun_rotation_plus = 2
 
 
 def new_pos (old_pos_x, old_pos_y, rotation, speed):
@@ -58,7 +60,9 @@ k_left = False
 k_right = False
 k_w = False
 k_s = False
-k_space = False 
+k_space = False
+k_q = False
+
 
 
 while fail == False:
@@ -78,6 +82,10 @@ while fail == False:
                 k_s = True
             if event.key == pygame.K_SPACE:
                 k_space = True
+                player_1_speed = 3
+            if event.key == pygame.K_q:
+                k_q = True
+                player_2_speed = 3
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 k_left = False
@@ -89,30 +97,44 @@ while fail == False:
                 k_s = False
             if event.key == pygame.K_SPACE:
                 k_space = False
+                player_1_speed = 6
+            if event.key == pygame.K_q:
+                k_q = False
+                player_2_speed = 6
             
     if k_left:
-        player_1_rotation += player_1_rotation_plus
+        if k_space:
+            player_1_gun_rotation += player_1_gun_rotation_plus
+        else:
+            player_1_rotation += player_1_rotation_plus
     if k_right:
-        player_1_rotation -= player_1_rotation_plus
+        if k_space:
+            player_1_gun_rotation -= player_1_gun_rotation_plus
+        else:
+            player_1_rotation -= player_1_rotation_plus
     if k_w:
-        player_2_rotation += player_2_rotation_plus
+        if k_q:
+            player_2_gun_rotation += player_2_gun_rotation_plus
+        else:
+            player_2_rotation += player_2_rotation_plus
     if k_s:
-        player_2_rotation -= player_2_rotation_plus
-    if k_space:
-        player_1_speed = 3
-    else:
-        player_1_speed = 6       
+        if k_q:
+            player_2_gun_rotation -= player_2_gun_rotation_plus
+        else:
+            player_2_rotation -= player_2_rotation_plus
+                  
     if player_1_rotation >= 360:
-        player_1_rotation = 1
+        player_1_rotation = 0
     if player_2_rotation >= 360:
-        player_2_rotation = 1    
+        player_2_rotation = 0
+        
     player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
     player_2_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation, player_2_speed)
     #pygame.draw.circle(screen, colors.red, player_2_pos, 50, )
     show_player(img_player_1_tank, player_1_pos, player_1_rotation)
     show_player(img_player_2_tank, player_2_pos, player_2_rotation)
-    show_player(img_player_1_gun, player_1_pos, player_1_rotation)
-    show_player(img_player_2_gun, player_2_pos, player_2_rotation)
+    show_player(img_player_1_gun, player_1_pos, player_1_rotation + player_1_gun_rotation)
+    show_player(img_player_2_gun, player_2_pos, player_2_rotation + player_2_gun_rotation)
     
     
     '''
