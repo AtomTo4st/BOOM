@@ -1,4 +1,4 @@
-import pygame
+import pygame, math, os
 from collections import namedtuple
 import sys
 sys.path.append("../")
@@ -13,7 +13,7 @@ class Bullet:
         self.pos = pos
         self.speed = speed
         self.color = color
-        self.hitradius = hitradius
+        self.hitRadius = hitradius
         self.img = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/bullet_{}.png").format(self.color))
         
     def isDead(self, maxW, maxH):

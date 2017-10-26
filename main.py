@@ -1,4 +1,4 @@
-import pygame, math 
+import pygame, math, keyboard
 from ext.tank import Tank
 from ext.colors import Colors
 try:
@@ -21,8 +21,9 @@ class Manager:
         self.tank_list = []
         self.remote_ip="192.168.0.10"
         self.offset = 128
-        self.minThrottle = 22
-        self.maxThrottle = 40
+        self.minThrottle = 5
+        self.maxThrottle = 10
+        self.steer = 0
     
     def main(self):
         pygame.init()
@@ -42,12 +43,13 @@ class Manager:
             mainWindow.searchCars(img)
             mainWindow.wait4Asyncs()
             
-            print("%f, %f, %f" % (BAPI.getWindow().carManager.getListOfCars()[0].position.x,
+            '''print("%f, %f, %f" % (BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
-                              BAPI.getWindow().carManager.getListOfCars()[0].angle))
+                              BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
-                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.car_list[(i+1)%2].position)
                 self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                #self.steerTanks_debug(i)
+                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
             pygame.display.update()
             self.clock.tick(30)
         
@@ -57,10 +59,39 @@ class Manager:
         
         if throttle < self.offset:
             #feuermodus
-            self.car_list[id].throttle = self.minThrottle 
+            self.car_list[id].throttle = self.minThrottle
+            self.tank_list[id].trigger = True
+            self.car_list[id].steeringAngle = 0
         else:
+            self.tank_list[id].trigger = False 
             self.car_list[id].throttle = self.maxThrottle 
-            self.car_list[id].steering = steering
+            self.car_list[id].steeringAngle = steering
+        self.steer = steering
+ 
+    def steerTanks_debug(self, id):
+        if keyboard.is_pressed("f"):
+            self.car_list[id].throttle = self.minThrottle
+            self.car_list[id].steeringAngle = 0
+            self.tank_list[id].trigger = True
+            if keyboard.is_pressed("a"):
+                self.steer = -100
+            elif keyboard.is_pressed("d"):
+                self.steer = 100
+            else:
+                self.steer=0
+        else:
+            self.tank_list[id].trigger = False 
+            self.car_list[id].throttle = self.maxThrottle 
+            if keyboard.is_pressed("a"):
+                self.car_list[id].steeringAngle = -100
+                self.steer = -100
+            elif keyboard.is_pressed("d"):
+                self.car_list[id].steeringAngle = 100
+                self.steer = 100
+            else:
+                self.car_list[id].steeringAngle = 0
+                self.steer = 0
+            
 
 def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     mainWindow = BAPI.getWindow()
