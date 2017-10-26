@@ -7,7 +7,7 @@ colors = ["red", "green", "blue", "white"]
 Position = namedtuple("Position", ["x","y"])
 
 class Tank:
-    def __init__(self, _id=0, pos=Position(0, 0), rot=0, aim=0, speed=6, turnspeed=5):
+    def __init__(self, _id=0, pos=Position(100, 100), rot=0, aim=0, speed=6, turnspeed=5):
         self.id = _id
         self.pos = pos
         self.rot = rot
@@ -15,9 +15,9 @@ class Tank:
         self.speed = speed
         self.turnspeed = turnspeed
         self.setup()
+        #self.remote_ip="192.168.0.10"+str(self.id)
         
     def setup(self):
-        print(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png"))
         self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))
         self.turret = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_top.png").format(colors[self.id]))
     
