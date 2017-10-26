@@ -2,9 +2,10 @@ import pygame
 import sys
 import time
 import math
-import colors
+import ext.colors as colors
 import os
 from pygame import image
+from moviepy.editor import VideoFileClip
 
 
 pygame.init()
@@ -68,6 +69,10 @@ def draw_shoot(list, img_shoot):
 screen = pygame.display.set_mode((screen_w,screen_h))
 pygame.display.set_caption("B00M")
 
+clip = VideoFileClip('assets/Animationen_Daniel/test_video.mpg')
+clip.preview()
+screen = pygame.display.set_mode((screen_w,screen_h))
+
 img_player_1_tank = pygame.image.load("assets/pictures/tank_red_bottom.png")
 img_player_1_gun = pygame.image.load("assets/pictures/tank_red_top.png")
 
@@ -89,6 +94,8 @@ k_w = False
 k_s = False
 k_space = False
 k_q = False
+
+
 
 
 
@@ -131,13 +138,13 @@ while fail == False:
                 player_1_speed = 6
                 player_1_first_shoot_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation + player_1_gun_rotation, player_1_gun_length)
                 player_1_shoot_list.append((player_1_first_shoot_pos[0], player_1_first_shoot_pos[1], player_1_rotation + player_1_gun_rotation, player_1_shoot_speed))
-                pygame.mixer.music.play(-1, 0.0)
+                pygame.mixer.music.play(1, 0.0)
             if event.key == pygame.K_q:
                 k_q = False
                 player_2_speed = 6
                 player_2_first_shoot_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation + player_2_gun_rotation, player_2_gun_length)
                 player_2_shoot_list.append((player_2_pos[0], player_2_pos[1], player_2_rotation + player_2_gun_rotation, player_2_shoot_speed))
-                
+                pygame.mixer.music.play(1, 0.0)
             
     if k_left:
         if k_space:
