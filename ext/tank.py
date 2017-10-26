@@ -24,9 +24,10 @@ class Tank:
         rect.center = (self.pos.x - (rect[2] / 2),self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
-    def draw(self, screen, pos, angle):
+    def draw(self, screen, pos, rot, aim=0):
         self.pos = Position(pos[0], pos[1])
-        self.rot = angle
+        self.rot = rot
+        self.aim = aim
         screen.blit(self.assignRot(self.body, self.rot))
         screen.blit(self.assignRot(self.turret, self.rot + self.aim))
         return screen
