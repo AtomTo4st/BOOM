@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, colors
 from ext.tank import tank
 try:
     import DasSpiel as BAPI
@@ -6,16 +6,33 @@ except ImportError:
     import DasSpielSimulation as BAPI
 # BAPI may stand for "Basler API" :-)
 
-
-def main():
-    car_list=BAPI.getWindow().carManager.getListOfCars()
-    tank_list=[]
-    for i in car_list:
-        tank_list.append(tank(id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].position)))
-    while True:
-        for i in tank_list:
-            tank_list[i].draw(car_list[i].position, car_list[i].angle)
-
-class manager:
+class Manager:
+    
     def __init__(self):
-        pass
+        self.running = True
+        self.screen_width = 800
+        self.screen_height = 800    
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption("B00M")
+        self.clock = pygame.time.Clock()
+    
+    def main(self):
+        pygame.init()
+        car_list=BAPI.getWindow().carManager.getListOfCars()
+        tank_list=[]
+        for i in car_list:
+            tank_list.append(tank(id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].position)))
+        while self.running == True:
+            self.screen.fill(colors.black)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+            for i in tank_list:
+                    tank_list[i].draw(car_list[i].position, car_list[i].angle)
+            pygame.display.update()
+            self.clock.tick(30)
+        
+        pygame.quit()
+        
+manager = Manager()
+manager.main()
