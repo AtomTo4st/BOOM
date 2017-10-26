@@ -1,5 +1,6 @@
-import pygame, math, colors
-from ext.tank import tank
+import pygame, math, 
+from ext.colors import Colors
+from ext.tank import Tank
 try:
     import DasSpiel as BAPI
 except ImportError:
@@ -22,9 +23,9 @@ class Manager:
         tank_list=[]
         for i in range(len(car_list)):
             print(car_list[i].angle)
-            tank_list.append(tank(_id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].angle)))
+            tank_list.append(Tank(_id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].angle)))
         while self.running == True:
-            self.screen.fill(colors.black)
+            self.screen.fill(Colors.black)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
