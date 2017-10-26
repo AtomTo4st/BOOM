@@ -15,7 +15,7 @@ class Tank:
         self.speed = speed
         self.turnspeed = turnspeed
         self.setup()
-        #self.remote_ip="192.168.0.10"+str(self.id)
+        self.trigger=False
         
     def setup(self):
         self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))

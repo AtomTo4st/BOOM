@@ -22,10 +22,12 @@ class Manager:
         self.remote_ip="192.168.0.10"
         self.offset = 128
         self.minThrottle = 28
+        self.maxThrottle = 40
+        self.aim
     
     def main(self):
         pygame.init()
-        mainWindow = initMainWindow("Boom", Cfg.MAIN_WINDOW_WIDTH_PX, Cfg.MAIN_WINDOW_HEIGHT_PX)
+        mainWindow = initMainWindow("Boom",self.screen_width, self.screen_height)
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=math.degrees(self.car_list[i].angle)))
         
@@ -43,8 +45,9 @@ class Manager:
             
             
             for i in range(len(self.tank_list)):
-                    self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, self.car_list[i].angle)
-                    self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, self.car_list[i].angle, aim = self.aim)
+                    
             pygame.display.update()
             self.clock.tick(30)
         
@@ -54,8 +57,11 @@ class Manager:
         
         if throttle < self.offset:
             #feuermodus
-            self.car_list[id].throttle = self.minThrottle 
+            self.car_list[id].throttle = self.minThrottle
+            self.tank_list[i].trigger = True
+            self.aim = steering - self.offset
         else:
+            self.tank_list[i].trigger = False
             self.car_list[id].throttle = self.maxThrottle 
             self.car_list[id].steering = steering
 
@@ -64,7 +70,7 @@ def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     mainWindow.setSize(fieldWidthPx, fieldHeightPx)
     mainWindow.name = name
     mainWindow.showFPS = False
-    mainWindow.closeWindow()
+    BAPI.closeWindow(name)
     return mainWindow
 
         
