@@ -20,9 +20,11 @@ class Manager:
     def main(self):
         pygame.init()
         car_list=BAPI.getWindow().carManager.getListOfCars()
+        #BAPI.getWindow().close()
         tank_list=[]
         for i in range(len(car_list)):
             tank_list.append(Tank(_id=i,pos=car_list[i].position,rot=math.degrees(car_list[i].angle)))
+        
         while self.running == True:
             self.screen.fill(Colors.black)
             for event in pygame.event.get():
