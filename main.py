@@ -20,24 +20,15 @@ class Manager:
         pygame.init()
         car_list=BAPI.getWindow().carManager.getListOfCars()
         tank_list=[]
-<<<<<<< HEAD
         for i in range(len(car_list)):
             print(car_list[i].angle)
-            tank_list.append(tank(_id=i,posx=math.degrees(car_list[i].position.x), posy=car_list[i].position.y,rot=math.degrees(car_list[i].position.x)))
-=======
-        for i in car_list:
-            tank_list.append(tank(id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].position)))
->>>>>>> 8a6b183c0ef86e72e7e2c072795cf5df3efea867
+            tank_list.append(tank(_id=i,posx=car_list[i].position.x, posy=car_list[i].position.y,rot=math.degrees(car_list[i].angle)))
         while self.running == True:
             self.screen.fill(colors.black)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-<<<<<<< HEAD
             for i in range(len(tank_list)):
-=======
-            for i in tank_list:
->>>>>>> 8a6b183c0ef86e72e7e2c072795cf5df3efea867
                     tank_list[i].draw(car_list[i].position, car_list[i].angle)
             pygame.display.update()
             self.clock.tick(30)
@@ -45,8 +36,4 @@ class Manager:
         pygame.quit()
         
 manager = Manager()
-<<<<<<< HEAD
 manager.main()
-=======
-manager.main()
->>>>>>> 8a6b183c0ef86e72e7e2c072795cf5df3efea867
