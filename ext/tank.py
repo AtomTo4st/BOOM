@@ -14,14 +14,11 @@ class Tank:
         self.aim = aim
         self.speed = speed
         self.turnspeed = turnspeed
-        self.setup()
+        self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))
+        self.turret = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_top.png").format(colors[self.id]))
         self.trigger = False
         self.lasttrigger = False
         
-    def setup(self):
-        self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))
-        self.turret = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_top.png").format(colors[self.id]))
-    
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
         rect = rotated.get_rect()
