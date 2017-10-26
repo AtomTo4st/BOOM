@@ -22,7 +22,6 @@ class Manager:
         car_list=BAPI.getWindow().carManager.getListOfCars()
         tank_list=[]
         for i in range(len(car_list)):
-            print(car_list[i].angle)
             tank_list.append(Tank(_id=i,pos=car_list[i].position,rot=math.degrees(car_list[i].angle)))
         while self.running == True:
             self.screen.fill(Colors.black)

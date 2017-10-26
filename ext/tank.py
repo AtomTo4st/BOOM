@@ -1,5 +1,5 @@
 import pygame
-import sys
+import sys, os
 from collections import namedtuple
 sys.path.append("../")
 
@@ -17,8 +17,9 @@ class Tank:
         self.setup()
         
     def setup(self):
-        self.body = pygame.image.load("/assets/pictures/tank_{}_bottom.png".format(colors[self.id]))
-        self.turret = pygame.image.load("/assets/pictures/tank_{}_top.png".format(colors[self.id]))
+        print(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png"))
+        self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))
+        self.turret = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_top.png").format(colors[self.id]))
     
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
