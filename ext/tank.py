@@ -26,7 +26,7 @@ class Tank:
         rect.center = (self.pos.x - (rect[2] / 2),self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
-    def draw(self, screen, pos, rot, aim=0):
+    def draw(self, screen, pos=self.pos, rot=self.rot, aim=0):
         self.pos = pos
         self.rot = rot
         self.aim = aim
