@@ -1,17 +1,18 @@
 import pygame
 import sys
-sys.path.append(../)
+sys.path.append('../')
 
 colors = ["red", "green", "blue", "white"]
 
 class tank:
-    def __init__(self, _id=0, posx=0, posy=0, rot=0, aim=0, speed=5):
+    def __init__(self, _id=0, posx=0, posy=0, rot=0, aim=0, speed=5, turnspeed=5):
         self.id = _id
         self.posx = posx
         self.posy = posy
         self.rot = rot
         self.aim = aim
         self.speed = speed
+        self.turnspeed = turnspeed
         
     def setup(self):
         self.body = pygame.image.load("/assets/pictures/tank_{}_bottom.png".format(colors[self.id]))
