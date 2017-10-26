@@ -166,7 +166,7 @@ while fail == False:
     
     player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
     player_2_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation, player_2_speed)
-    
+    '''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             fail = True
@@ -230,6 +230,11 @@ while fail == False:
             player_2_gun_rotation -= player_2_gun_rotation_plus
         else:
             player_2_rotation -= player_2_rotation_plus
+    '''
+    
+    
+    
+    
                   
     if player_1_rotation >= 360:
         player_1_rotation = 0
