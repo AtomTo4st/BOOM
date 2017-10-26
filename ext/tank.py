@@ -33,6 +33,6 @@ class Tank:
         if rot != None:
             self.rot = rot
         self.aim = aim
-        screen.blit(self.assignRot(self.body, self.rot))
-        screen.blit(self.assignRot(self.turret, self.rot + self.aim))
+        screen.blit(*self.assignRot(self.body, self.rot))
+        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
         return screen
