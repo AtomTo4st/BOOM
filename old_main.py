@@ -5,8 +5,12 @@ import math
 import ext.colors as colors
 import os
 from pygame import image
-from moviepy.editor import VideoFileClip
-
+from moviepy.editor import VideoFileClip 
+'''python -m pip install moviepy
+python
+import imageio
+imageio.plugins.ffmpeg.download()
+'''
 
 pygame.init()
 
@@ -19,7 +23,7 @@ player_2_pos = (800 - (screen_w / 4), (screen_h / 4))
 
 
 player_1_speed = 6
-player_2_speed = 6
+player_2_speed = 0
 player_1_rotation = 0
 player_2_rotation = 0
 player_1_gun_rotation = 0
@@ -40,6 +44,7 @@ player_2_shoot_list = []
 player_1_shoot_speed = 10
 player_2_shoot_speed = 10
 
+hit_radius = 25
 
 
 def new_pos (old_pos_x, old_pos_y, rotation, speed):
@@ -53,7 +58,7 @@ def show_player(img_player, player_pos, player_rotation):
     rect_player.center=(player_pos[0] - (rect_player[2] / 2),player_pos[1] - (rect_player[2] / 2))
     screen.blit(rotated_img_player, (player_pos[0] - (rect_player[2] / 2),player_pos[1] - (rect_player[2] / 2)))
     
-def draw_shoot(list, img_shoot):
+def draw_shoot(list, img_shoot, other_player_pos):
     shoot_counter = 0
     for each_shoot in list:
         each_shoot_pos = new_pos(each_shoot[0],each_shoot[1],each_shoot[2],each_shoot[3])
@@ -62,14 +67,15 @@ def draw_shoot(list, img_shoot):
         
         if each_shoot_pos[0] < 0 or each_shoot_pos[0] > screen_w or each_shoot_pos[1] < 0 or each_shoot_pos[1] > screen_h:
             del list[shoot_counter]
-        
+        if math.sqrt(((abs(each_shoot_pos[0]-other_player_pos[0]))**2)+((abs(each_shoot_pos[1]-other_player_pos[1]))**2)) <= hit_radius:
+            pygame.quit()
         shoot_counter +=1
     return list
   
 screen = pygame.display.set_mode((screen_w,screen_h))
 pygame.display.set_caption("B00M")
 
-clip = VideoFileClip('assets/Animationen_Daniel/test_video.mpg')
+clip = VideoFileClip('assets/Animationen_Daniel/Main_Animation.mp4')
 clip.preview()
 screen = pygame.display.set_mode((screen_w,screen_h))
 
@@ -176,8 +182,8 @@ while fail == False:
     show_player(img_player_1_tank, player_1_pos, player_1_rotation)
     show_player(img_player_2_tank, player_2_pos, player_2_rotation)
     
-    player_1_shoot_list = draw_shoot(player_1_shoot_list, img_player_1_shoot)
-    player_2_shoot_list = draw_shoot(player_2_shoot_list, img_player_2_shoot)
+    player_1_shoot_list = draw_shoot(player_1_shoot_list, img_player_1_shoot, player_2_pos)
+    player_2_shoot_list = draw_shoot(player_2_shoot_list, img_player_2_shoot, player_1_pos)
     
     show_player(img_player_1_gun, player_1_pos, player_1_rotation + player_1_gun_rotation)
     show_player(img_player_2_gun, player_2_pos, player_2_rotation + player_2_gun_rotation)
