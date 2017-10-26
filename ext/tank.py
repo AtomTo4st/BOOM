@@ -27,7 +27,7 @@ class Tank:
         rect.center = (self.pos.x - (rect[2] / 2), self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
-    def draw(self, screen, pos=None, rot=None, steer=0):
+    def draw(self, screen, pos=None, rot=None, steer=0, enemyPos=Position(0,0)):
         if pos != None:
             self.pos = pos
         if rot != None:
@@ -45,9 +45,12 @@ class Tank:
                 self.lasttrigger = False
         
         for b in range(len(self.bullets)):
-            b.fly()
-            if b.isDead(1800, 1200, enemyPos):
-                pass
+            self.bullets[b].fly()
+            if self.bullets[b].hasHit(enemyPos):
+                self.bullets.remove(b)
+                print("Hit")
+            elif self.bullets[b].isDead(1800, 1200):
+                self.bullets.remove(b)
             screen.blit(b.img, b.pos)
         
         return screen
