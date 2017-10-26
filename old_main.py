@@ -30,6 +30,13 @@ player_2_rotation_plus = 5
 player_1_gun_rotation_plus = 2
 player_2_gun_rotation_plus = 2
 
+player_1_shoot_list = []
+player_2_shoot_list = []
+
+player_1_shoot_speed = 10
+player_2_shoot_speed = 10
+
+
 
 def new_pos (old_pos_x, old_pos_y, rotation, speed):
     new_pos_x = (speed * math.sin(math.radians(rotation))) + old_pos_x
@@ -41,6 +48,17 @@ def show_player(img_player, player_pos, player_rotation):
     rect_player = rotated_img_player.get_rect()
     rect_player.center=(player_pos[0] - (rect_player[2] / 2),player_pos[1] - (rect_player[2] / 2))
     screen.blit(rotated_img_player, (player_pos[0] - (rect_player[2] / 2),player_pos[1] - (rect_player[2] / 2)))
+    
+def draw_shoot(list, img_shoot):
+    shoot_counter = 0
+    for each_shoot in list:
+        each_shoot_pos = new_pos(each_shoot[0],each_shoot[1],each_shoot[2],each_shoot[3])
+        screen.blit(img_shoot, each_shoot_pos)
+        if each_shoot_pos[0] < 0 or each_shoot_pos[0] > screen_w or each_shoot_pos[1] < 0 or each_shoot_pos[1] > screen_h:
+            del list[shoot_counter]
+        
+        shoot_counter +=1
+    return list
   
 screen = pygame.display.set_mode((screen_w,screen_h))
 pygame.display.set_caption("B00M")
@@ -51,6 +69,7 @@ img_player_1_gun = pygame.image.load("assets/pictures/tank_red_top.png")
 img_player_2_tank = pygame.image.load("assets/pictures/tank_green_bottom.png")
 img_player_2_gun = pygame.image.load("assets/pictures/tank_green_top.png")
 
+img_player_1_shoot = 
 
 clock = pygame.time.Clock()
 fail = False
@@ -67,6 +86,10 @@ k_q = False
 
 while fail == False:
     screen.fill(colors.black)
+    
+    player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
+    player_2_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation, player_2_speed)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             fail = True
@@ -98,9 +121,11 @@ while fail == False:
             if event.key == pygame.K_SPACE:
                 k_space = False
                 player_1_speed = 6
+                player_1_shoot_list.append((player_1_pos[0], player_1_pos[1], player_1_rotation + player_1_gun_rotation, player_1_shoot_speed))
             if event.key == pygame.K_q:
                 k_q = False
                 player_2_speed = 6
+                
             
     if k_left:
         if k_space:
@@ -128,8 +153,6 @@ while fail == False:
     if player_2_rotation >= 360:
         player_2_rotation = 0
         
-    player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
-    player_2_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation, player_2_speed)
     #pygame.draw.circle(screen, colors.red, player_2_pos, 50, )
     show_player(img_player_1_tank, player_1_pos, player_1_rotation)
     show_player(img_player_2_tank, player_2_pos, player_2_rotation)
