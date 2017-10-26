@@ -6,6 +6,7 @@ import colors
 import os
 from pygame import image
 
+#imports
 
 pygame.init()
 
@@ -69,8 +70,8 @@ img_player_1_gun = pygame.image.load("assets/pictures/tank_red_top.png")
 img_player_2_tank = pygame.image.load("assets/pictures/tank_green_bottom.png")
 img_player_2_gun = pygame.image.load("assets/pictures/tank_green_top.png")
 
-img_player_1_shoot = 
-img_player_2_shoot = 
+#img_player_1_shoot = 
+#img_player_2_shoot = 
 
 clock = pygame.time.Clock()
 fail = False
