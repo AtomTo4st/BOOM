@@ -24,6 +24,9 @@ player_2_rotation = 0
 player_1_gun_rotation = 0
 player_2_gun_rotation = 0
 
+player_1_gun_length = 25
+player_2_gun_length = 25
+
 player_1_rotation_plus = 5
 player_2_rotation_plus = 5
 
@@ -73,6 +76,8 @@ img_player_2_gun = pygame.image.load("assets/pictures/tank_green_top.png")
 
 img_player_1_shoot = pygame.image.load("assets/pictures/bullet_red.png")
 img_player_2_shoot = pygame.image.load("assets/pictures/bullet_green.png")
+
+shoot_sound = pygame.mixer.music.load("assets/sfx/tank_firing.ogg")
 
 clock = pygame.time.Clock()
 fail = False
@@ -124,10 +129,13 @@ while fail == False:
             if event.key == pygame.K_SPACE:
                 k_space = False
                 player_1_speed = 6
-                player_1_shoot_list.append((player_1_pos[0], player_1_pos[1], player_1_rotation + player_1_gun_rotation, player_1_shoot_speed))
+                player_1_first_shoot_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation + player_1_gun_rotation, player_1_gun_length)
+                player_1_shoot_list.append((player_1_first_shoot_pos[0], player_1_first_shoot_pos[1], player_1_rotation + player_1_gun_rotation, player_1_shoot_speed))
+                pygame.mixer.music.play(-1, 0.0)
             if event.key == pygame.K_q:
                 k_q = False
                 player_2_speed = 6
+                player_2_first_shoot_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation + player_2_gun_rotation, player_2_gun_length)
                 player_2_shoot_list.append((player_2_pos[0], player_2_pos[1], player_2_rotation + player_2_gun_rotation, player_2_shoot_speed))
                 
             
