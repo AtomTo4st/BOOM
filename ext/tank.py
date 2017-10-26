@@ -6,7 +6,7 @@ colors = ["red", "green", "blue", "white"]
 Position = namedtuple("Position", ["x","y"])
 
 class Tank:
-    def __init__(self, _id=0, pos, rot=0, aim=0, speed=6, turnspeed=5):
+    def __init__(self, _id=0, pos=(0,0), rot=0, aim=0, speed=6, turnspeed=5):
         self.id = _id
         self.pos = Position(pos[0], pos[1])
         self.rot = rot
