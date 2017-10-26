@@ -11,8 +11,8 @@ class Manager:
     
     def __init__(self):
         self.running = True
-        self.screen_width = 800
-        self.screen_height = 800    
+        self.screen_width = 1300
+        self.screen_height = 700    
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("B00M")
         self.clock = pygame.time.Clock()
@@ -21,7 +21,8 @@ class Manager:
         self.tank_list = []
         self.remote_ip="192.168.0.10"
         self.offset = 128
-        self.minThrottle = 28
+        self.minThrottle = 22
+        self.maxThrottle = 40
     
     def main(self):
         pygame.init()
@@ -45,7 +46,7 @@ class Manager:
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))
             for i in range(len(self.tank_list)):
-                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90)
+                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.car_list[(i+1)%2].position)
                 self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
             pygame.display.update()
             self.clock.tick(30)
