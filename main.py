@@ -21,8 +21,8 @@ class Manager:
         self.tank_list = []
         self.remote_ip="192.168.0.10"
         self.offset = 128
-        self.minThrottle = 12
-        self.minThrottle = 40
+        self.minThrottle = 22
+        self.maxThrottle = 40
     
     def main(self):
         pygame.init()
