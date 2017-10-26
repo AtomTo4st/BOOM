@@ -1,6 +1,6 @@
 import pygame
 from collections import namedtuple
-sys.path.append("../")
+#sys.path.append("../")
 
 Position = namedtuple("Position", ["x","y"])
 

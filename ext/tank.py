@@ -47,7 +47,7 @@ class Tank:
         for b in range(len(self.bullets)):
             b.fly()
             if b.isDead(1800, 1200, enemyPos):
-                
+                pass
             screen.blit(b.img, b.pos)
         
         return screen
