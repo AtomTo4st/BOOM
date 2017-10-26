@@ -1,6 +1,7 @@
 import pygame
 import sys, os
 from collections import namedtuple
+from ext.bullet import Bullet
 sys.path.append("../")
 
 colors = ["red", "green", "blue", "white"]
@@ -18,11 +19,12 @@ class Tank:
         self.turret = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_top.png").format(colors[self.id]))
         self.trigger = False
         self.lasttrigger = False
+        self.bullets = []
         
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
         rect = rotated.get_rect()
-        rect.center = (self.pos.x - (rect[2] / 2),self.pos.y - (rect[2] / 2))
+        rect.center = (self.pos.x - (rect[2] / 2), self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
     def draw(self, screen, pos=None, rot=None, steer=0):
@@ -31,15 +33,21 @@ class Tank:
         if rot != None:
             self.rot = rot
         
+        screen.blit(*self.assignRot(self.body, self.rot))
+        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+        
         if self.trigger == True:
             self.aim = self.aim + steer/128 * turnspeed
             self.lasttrigger = True
         elif self.trigger == False:
             if self.lasttrigger == True:
-                #shoot
-                
+                self.bullets.append(Bullet(self.rot+self.aim, self.pos, self.color))
                 self.lasttrigger = False
         
-        screen.blit(*self.assignRot(self.body, self.rot))
-        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+        for b in range(len(self.bullets)):
+            b.fly()
+            if b.isDead(1800, 1200, enemyPos):
+                
+            screen.blit(b.img, b.pos)
+        
         return screen
