@@ -49,7 +49,7 @@ class Tank:
             if self.bullets[b].hasHit(enemyPos):
                 self.bullets.remove(b)
                 print("Hit")
-            elif self.bullets[b].isDead(1800, 1200):
+            elif self.bullets[b].isDead(screen.get_width(), screen.get_height()):
                 self.bullets.remove(b)
             screen.blit(b.img, b.pos)
         
