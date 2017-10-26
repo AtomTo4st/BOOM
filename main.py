@@ -23,7 +23,7 @@ class Manager:
         self.offset = 128
         self.minThrottle = 28
         self.maxThrottle = 40
-        self.aim
+        self.steer = 0
     
     def main(self):
         pygame.init()
@@ -46,7 +46,7 @@ class Manager:
             
             for i in range(len(self.tank_list)):
                 self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
-                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, self.car_list[i].angle, aim = self.aim)
+                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, self.car_list[i].angle, steer = self.steer)
                     
             pygame.display.update()
             self.clock.tick(30)
@@ -59,7 +59,7 @@ class Manager:
             #feuermodus
             self.car_list[id].throttle = self.minThrottle
             self.tank_list[i].trigger = True
-            self.aim = steering - self.offset
+            self.steer = steering - self.offset
         else:
             self.tank_list[i].trigger = False
             self.car_list[id].throttle = self.maxThrottle 

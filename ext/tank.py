@@ -15,7 +15,8 @@ class Tank:
         self.speed = speed
         self.turnspeed = turnspeed
         self.setup()
-        self.trigger=False
+        self.trigger = False
+        self.lasttrigger = False
         
     def setup(self):
         self.body = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/tank_{}_bottom.png").format(colors[self.id]))
@@ -27,12 +28,21 @@ class Tank:
         rect.center = (self.pos.x - (rect[2] / 2),self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
-    def draw(self, screen, pos=None, rot=None, aim=0):
+    def draw(self, screen, pos=None, rot=None, steer=0):
         if pos != None:
             self.pos = pos
         if rot != None:
             self.rot = rot
-        self.aim = aim
+        
+        if self.trigger == True:
+            self.aim = self.aim + steer/128 * turnspeed
+            self.lasttrigger = True
+        elif self.trigger == False:
+            if self.lasttrigger == True:
+                #shoot
+                
+                self.lasttrigger = False
+        
         screen.blit(*self.assignRot(self.body, self.rot))
         screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
         return screen
