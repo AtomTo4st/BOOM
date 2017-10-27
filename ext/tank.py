@@ -10,7 +10,7 @@ Position = namedtuple("Position", ["x","y"])
 class Tank:
     def __init__(self, _id=0, pos=Position(100, 100), rot=0, aim=0, speed=6, turnspeed=5):
         self.id = _id
-        self.pos = pos
+        self.pos = Position(int(pos.x) + 60, pos.y)
         self.rot = rot
         self.aim = aim
         self.speed = speed
@@ -33,7 +33,7 @@ class Tank:
             self.pos = pos
         if rot != None:
             self.rot = rot
-        
+        self.pos = Position(int(pos.x) + 60, pos.y)
          
         if self.trigger == True:
             print("Trigger pressed")

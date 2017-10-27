@@ -1,6 +1,7 @@
 import pygame, math, keyboard, time, os
 from ext.tank import Tank
 from ext.colors import Colors
+from ext.obstacles import Obstacle
 try:
     import DasSpiel as BAPI
 except ImportError:
@@ -11,8 +12,8 @@ class Manager:
     
     def __init__(self):
         self.running = True
-        self.screen_width = 1300
-        self.screen_height = 700    
+        self.screen_width = 1920
+        self.screen_height = 1200    
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("B00M")
         self.clock = pygame.time.Clock()
@@ -31,6 +32,7 @@ class Manager:
         mainWindow = initMainWindow("Boom", self.screen_width, self.screen_height)
         background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
         self.screen.blit(background, (0,0))
+        obst = Obstacle()
         
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
@@ -53,10 +55,20 @@ class Manager:
             for i in range(len(self.tank_list)):
                 #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
                 self.steerTanks_debug(i)
+                #self.screen, self.hit = self.tank_list[i].draw(self.screen,Position(self.car_list[i].position.x + 60, self.car_list[i].position.y), -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
-                #print("hit:", self.hit)
+                print("hit:", self.hit)
                 if self.hit:
                     pygame.quit()
+                
+                if obst.onObstacle(self.car_list[i].position) == "Sand":
+                    # geschwindigkeit reduzieren
+                elif obst.onObstacle(self.car_list[i].position) == "Stone":
+                    #zuende
+                elif obst.onObstacle(self.car_list[i].position) == "MagiccccFog":
+                    #invertiert lenkung
+                elif obst.onObstacle(self.car_list[i].position) == "BermuddaHole":
+                    #unsichtbar, kann nicht schieﬂen
                      
 
             pygame.display.update()

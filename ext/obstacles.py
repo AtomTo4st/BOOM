@@ -9,8 +9,7 @@ Position = namedtuple("Position", ["x", "y"])
 
 class Obstacle(pygame.sprite.Sprite):
     
-    def __init__(self, pos = Position(0, 0)):
-        self.pos = pos
+    def __init__(self):
         sand = Sand(Position(0, 891), Position(402, 1200))
         sand2 = Sand(Position(402, 343), Position(805, 693))
         sand3 = Sand(Position(842, 115), Position(413, 1200))
@@ -37,10 +36,10 @@ class Sand(pygame.sprite.Sprite):
     
     #Effect: Sand reduces the velocity of the player, for instance the tank
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0), type = "Sand"):
+    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos  
         self.pos2 = pos2
-        self.type = type              
+        self.type = "Sand"              
     
 class Stone(pygame.sprite.Sprite):
     
@@ -48,10 +47,10 @@ class Stone(pygame.sprite.Sprite):
     
     #Effect: Player dies (Tank explodes or smt like that)
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0), type = "Stone"):
+    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
-        self.type = type
+        self.type = "Stone"
     
 class MagiccccFog(pygame.sprite.Sprite):
     
@@ -59,10 +58,10 @@ class MagiccccFog(pygame.sprite.Sprite):
     
     #Effect: Invert steering
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0), type = "MagiccccFog"):
+    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
-        self.type = type
+        self.type = "MagiccccFog"
     
 class BermuddaHole(pygame.sprite.Sprite):
     
@@ -70,8 +69,8 @@ class BermuddaHole(pygame.sprite.Sprite):
     
     #Effect: Tank disappeares
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0), type = "BermuddaHole"):
+    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
-        self.type = type
+        self.type = "BermuddaHole"
     
