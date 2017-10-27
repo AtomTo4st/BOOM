@@ -29,6 +29,8 @@ class Manager:
     def main(self):
         pygame.init()
         mainWindow = initMainWindow("Boom", self.screen_width, self.screen_height)
+        background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
+        screen.blit(background, (0,0))
         
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
