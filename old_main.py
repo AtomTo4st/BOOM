@@ -127,7 +127,7 @@ def menue():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fail = True
-                menu = false
+                menu = False
         
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_g:

@@ -1,0 +1,11 @@
+//möglichst wav oder ogg format
+import pygame
+pygame.init()
+pygame.mixer.init(channels = 4)
+start_music = "assets/fertiges_animationen_audio/test.wav"
+
+pygame.mixer.music.stop()
+pygame.mixer.music.load(start_music)
+pygame.mixer.music.play(-1, 0.0) //-1 loop (5 währe z.B. 5 wiederholungen)
+
+pygame.mixer.Channel(2).play(pygame.mixer.Sound(shoot_sound)) //spielt sound in channel, mehrere sounds übereinander, keine loop
