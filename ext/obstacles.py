@@ -2,7 +2,6 @@ import pygame
 from collections import namedtuple
 from _operator import pos
 from ext.tank import Tank
-from keyboard.keyboard import play
 
 Position = namedtuple("Position", ["x", "y"])
 

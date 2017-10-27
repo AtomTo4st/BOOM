@@ -1,8 +1,8 @@
 import pygame, math, keyboard, time, os
 from ext.tank import Tank
 from ext.colors import Colors
-from moviepy.editor import VideoFileClip 
-from ext.obstacles import Obstacle
+#from moviepy.editor import VideoFileClip 
+#from ext.obstacles import Obstacle
 
 try:
     import DasSpiel as BAPI
@@ -31,8 +31,8 @@ class Manager:
         self.hit = False
     
     def menu(self):
-        intro = VideoFileClip('assets/fertiges_animationen_audio/INTRO_FERTIG.mpg')
-        intro.preview()
+        #intro = VideoFileClip('assets/fertiges_animationen_audio/INTRO_FERTIG.mpg')
+        #intro.preview()
         
         pygame.init()
         menu_gif = 0
@@ -111,7 +111,7 @@ class Manager:
         self.steer = 0
         self.hit = False
         
-        obst = Obstacle()
+        #obst = Obstacle()
         background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
         self.screen.blit(background, (0,0))
 
@@ -127,9 +127,9 @@ class Manager:
             self.screen.blit(background, (0,0))
             
             scoreLabel = font.render(str(scores[0]), 1, (255,0,0))
-            self.screen.blit(scoreLabel, (10, 2))
+            self.screen.blit(scoreLabel, (60, 2))
             scoreLabel = font.render(str(scores[1]), 1, (0,255,0))
-            self.screen.blit(scoreLabel, (self.screen_width-25, 2))
+            self.screen.blit(scoreLabel, (self.screen_width-75, 2))
             
             winner = 0
             for s in range(len(scores)):
@@ -156,7 +156,7 @@ class Manager:
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
-                if obst.onObstacle(self.car_list[i].position) == "Sand":
+                '''if obst.onObstacle(self.car_list[i].position) == "Sand":
                     # geschwindigkeit reduzieren
                     self.tank_list[i].obstacle = 1
                     print("SAAAAAND")
@@ -171,7 +171,7 @@ class Manager:
                     self.tank_list[i].obstacle = 4
                 else:
                      self.tank_list[i].obstacle = 0
-                
+                '''
                 self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
                 #self.steerTanks_debug(i)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
