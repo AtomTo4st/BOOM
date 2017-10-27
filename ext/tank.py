@@ -20,6 +20,7 @@ class Tank:
         self.trigger = False
         self.lasttrigger = False
         self.bullets = []
+        self.hit = False
         
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
@@ -48,6 +49,7 @@ class Tank:
             b.fly()
             if b.hasHit(enemyPos):
                 self.bullets.remove(b)
+                hitEnemy = True
                 print("Hit")
             elif b.isDead(screen.get_width(), screen.get_height()):
                 self.bullets.remove(b)
@@ -55,4 +57,4 @@ class Tank:
 
        
 
-        return screen
+        return screen, hitEnemy

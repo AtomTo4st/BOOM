@@ -49,7 +49,11 @@ class Manager:
             for i in range(len(self.tank_list)):
                 #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
                 self.steerTanks_debug(i)
-                self.screen = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
+                self.screen, hitEnemy = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
+                if hitEnemy:
+                     self.tank_list[(i+1)%2].hit = True
+                else:
+                     self.tank_list[(i+1)%2].hit = True
             pygame.display.update()
             self.clock.tick(30)
         
@@ -61,12 +65,12 @@ class Manager:
             #feuermodus
             self.car_list[id].throttle = self.minThrottle
             self.tank_list[id].trigger = True
-            self.car_list[id].steeringAngle = 0
+            self.car_list[id].steeringAngle = 0 
         else:
             self.tank_list[id].trigger = False 
             self.car_list[id].throttle = self.maxThrottle 
             self.car_list[id].steeringAngle = steering
-        self.steer = steering
+        self.steer = steering - self-offset
  
     def steerTanks_debug(self, id):
         if keyboard.is_pressed("f"):
