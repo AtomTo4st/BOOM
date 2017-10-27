@@ -5,15 +5,15 @@ try:
     import DasSpiel as BAPI
 except ImportError:
     import DasSpielSimulation as BAPI
-from moviepy.editor import VideoFileClip 
+#from moviepy.editor import VideoFileClip 
 # BAPI may stand for "Basler API" :-)
 
 class Manager:
     
     def __init__(self):
         self.running = True
-        self.screen_width = 1300
-        self.screen_height = 700    
+        self.screen_width = 1920
+        self.screen_height = 1200    
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("B00M")
         self.clock = pygame.time.Clock()
@@ -34,8 +34,8 @@ class Manager:
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
         
-        intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
-        intro.preview()
+        #intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
+        #intro.preview()
 
         while self.running == True:
             self.screen.fill(Colors.black)
