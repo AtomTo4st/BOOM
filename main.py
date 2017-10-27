@@ -1,4 +1,4 @@
-import pygame, math, keyboard, time
+import pygame, math, keyboard, time, os
 from ext.tank import Tank
 from ext.colors import Colors
 try:
@@ -30,13 +30,14 @@ class Manager:
         pygame.init()
         mainWindow = initMainWindow("Boom", self.screen_width, self.screen_height)
         background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
-        screen.blit(background, (0,0))
+        self.screen.blit(background, (0,0))
         
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
         
         while self.running == True:
-            self.screen.fill(Colors.black)
+            self.screen.fill((255,255,255))
+            self.screen.blit(background, (0,0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -46,14 +47,14 @@ class Manager:
             mainWindow.searchCars(img)
             mainWindow.wait4Asyncs()
             
-            '''print("%f, %f, %f" % (BAPI.getWindow().carManager.getListOfCars()[0].position.x,
+            '''#print("%f, %f, %f" % (BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
                 #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
                 self.steerTanks_debug(i)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
-                print("hit:", self.hit)
+                #print("hit:", self.hit)
                 if self.hit:
                     pygame.quit()
                      
