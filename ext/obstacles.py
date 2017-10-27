@@ -5,16 +5,22 @@ from tank import Tank
 
 Position = namedtuple("Position", ["x", "y"])
 
+
+
 class Obstacle(pygame.sprite.Sprite):
     
     def __init__(self, pos = Position(0, 0)):
         self.pos = pos
-        sand = Sand(Position(0, 0), Position(0, 0))
-        sand2 = Sand(Position(0, 0), Position(0, 0))
-        stone = Stone(Position(0, 0), Position(0, 0))
-        stone2 = Stone(Position(0, 0), Position(0, 0))
-        magiccccFog = MagiccccFog(Position(0, 0), Position(0, 0))
-        bermuddaHole = BermuddaHole(Position(0, 0), Position(0, 0))
+        sand = Sand(Position(0, 891), Position(402, 1200))
+        sand2 = Sand(Position(402, 343), Position(805, 693))
+        sand3 = Sand(Position(842, 115), Position(413, 1200))
+        sand4 = Sand(Position(700, 0), Position(890, 155))
+        sand5 = Sand(Position(1325, 0), Position(1740, 525))
+        sand6 = Sand(Position(1325, 0), Position(1800, 173))
+        stone = Stone(Position(209, 160), Position(402, 343))
+        stone2 = Stone(Position(838, 541), Position(960, 656))
+        magiccccFog = MagiccccFog(Position(1320, 750), Position(1800, 1200))
+        bermuddaHole = BermuddaHole(Position(1426, 857), Position(1800, 1200))
         
         self.listObstacles = [sand, sand2, stone, stone2, bermuddaHole, magiccccFog]
         
