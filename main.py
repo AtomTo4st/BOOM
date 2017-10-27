@@ -1,4 +1,4 @@
-import pygame, math, keyboard
+import pygame, math, keyboard, time
 from ext.tank import Tank
 from ext.colors import Colors
 try:
@@ -24,6 +24,7 @@ class Manager:
         self.minThrottle = 5
         self.maxThrottle = 10
         self.steer = 0
+        self.hit = False
     
     def main(self):
         pygame.init()
@@ -49,11 +50,12 @@ class Manager:
             for i in range(len(self.tank_list)):
                 #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
                 self.steerTanks_debug(i)
-                self.screen, hitEnemy = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
-                if hitEnemy:
-                     self.tank_list[(i+1)%2].hit = True
-                else:
-                     self.tank_list[(i+1)%2].hit = False
+                self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
+                print("hit:", self.hit)
+                if self.hit:
+                    pygame.quit()
+                     
+
             pygame.display.update()
             self.clock.tick(30)
         
@@ -77,34 +79,33 @@ class Manager:
             self.car_list[id].throttle = 0
             
     def steerTanks_debug(self, id):
-        if keyboard.is_pressed("f"):
-            throttle_val = self.minThrottle
-            self.car_list[id].steeringAngle = 0
-            self.tank_list[id].trigger = True
-            if keyboard.is_pressed("a"):
-                self.steer = -100
-            elif keyboard.is_pressed("d"):
-                self.steer = 100
-            else:
-                self.steer=0
-        else:
-            self.tank_list[id].trigger = False 
-            throttle_val = self.maxThrottle 
-            if keyboard.is_pressed("a"):
-                self.car_list[id].steeringAngle = -100
-                self.steer = -100
-            elif keyboard.is_pressed("d"):
-                self.car_list[id].steeringAngle = 100
-                self.steer = 100
-            else:
+        if not self.hit:
+            if keyboard.is_pressed("f"):
+                self.car_list[id].throttle = self.minThrottle
                 self.car_list[id].steeringAngle = 0
-                self.steer = 0
-        if not self.tank_list[id].hit:
-            self.car_list[id].throttle = throttle_val
+                self.tank_list[id].trigger = True
+                if keyboard.is_pressed("a"):
+                    self.steer = -100
+                elif keyboard.is_pressed("d"):
+                    self.steer = 100
+                else:
+                    self.steer=0
+            else:
+                self.tank_list[id].trigger = False 
+                self.car_list[id].throttle = self.maxThrottle 
+                if keyboard.is_pressed("a"):
+                    self.car_list[1].steeringAngle = -100
+                    self.steer = -100
+                elif keyboard.is_pressed("d"):
+                    self.car_list[1].steeringAngle = 100
+                    self.steer = 100
+                else:
+                    self.car_list[1].steeringAngle = 0
+                    self.steer = 0
         else:
-            print ("Id: ", id, " hit!!")
             self.car_list[id].throttle = 0
-            pygame.quit()
+            self.car_list[id].steeringAngle = 0
+            self.steer = 0
             
 
 def initMainWindow(name, fieldWidthPx, fieldHeightPx):

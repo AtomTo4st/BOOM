@@ -20,7 +20,7 @@ class Tank:
         self.trigger = False
         self.lasttrigger = False
         self.bullets = []
-        self.hit = False
+        #self.hit = False
         
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
