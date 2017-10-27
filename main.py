@@ -111,6 +111,11 @@ class Manager:
         self.steer = 0
         self.hit = False
         
+        obst = Obstacle()
+        background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
+        self.screen.blit(background, (0,0))
+
+        
         mainWindow = initMainWindow("Boom", self.screen_width, self.screen_height)
         font = pygame.font.SysFont("monospace", 30)
         scores = [0,0]
@@ -118,7 +123,8 @@ class Manager:
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
         while running == True:
-            self.screen.fill(Colors.black)
+            self.screen.fill((255,255,255))
+            self.screen.blit(background, (0,0))
             
             scoreLabel = font.render(str(scores[0]), 1, (255,0,0))
             self.screen.blit(scoreLabel, (10, 2))
