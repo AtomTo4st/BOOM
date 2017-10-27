@@ -23,7 +23,9 @@ class Manager:
         self.remote_ip="192.168.0.10"
         self.offset = 128
         self.minThrottle = 5
+        self.minThrottle_live = 28
         self.maxThrottle = 10
+        self.maxThrottle_live = 35
         self.steer = 0
         self.hit = False
     
@@ -53,22 +55,27 @@ class Manager:
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
-                #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
-                self.steerTanks_debug(i)
+                self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                #self.steerTanks_debug(i)
+                if obst.onObstacle(self.car_list[i].position) == "Sand":
+                    # geschwindigkeit reduzieren
+                    self.tank_list[i].obstacle = 1
+                elif obst.onObstacle(self.car_list[i].position) == "Stone":
+                    #zuende
+                    self.tank_list[i].obstacle = 2
+                elif obst.onObstacle(self.car_list[i].position) == "MagiccccFog":
+                    #invertiert lenkung
+                    self.tank_list[i].obstacle = 3
+                elif obst.onObstacle(self.car_list[i].position) == "BermuddaHole":
+                    #unsichtbar, kann nicht schiessen
+                    self.tank_list[i].obstacle = 4
+
                 #self.screen, self.hit = self.tank_list[i].draw(self.screen,Position(self.car_list[i].position.x + 60, self.car_list[i].position.y), -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
                 print("hit:", self.hit)
                 if self.hit:
                     pygame.quit()
                 
-                if obst.onObstacle(self.car_list[i].position) == "Sand":
-                    # geschwindigkeit reduzieren
-                elif obst.onObstacle(self.car_list[i].position) == "Stone":
-                    #zuende
-                elif obst.onObstacle(self.car_list[i].position) == "MagiccccFog":
-                    #invertiert lenkung
-                elif obst.onObstacle(self.car_list[i].position) == "BermuddaHole":
-                    #unsichtbar, kann nicht schieﬂen
                      
 
             pygame.display.update()
@@ -77,22 +84,33 @@ class Manager:
         pygame.quit()
     
     def steerTanks(self, id, throttle, steering):
-        
-        if throttle < self.offset:
-            #feuermodus
-            throttle_val = self.minThrottle
-            self.tank_list[id].trigger = True
-            self.car_list[id].steeringAngle = 0 
+        if not self.hit:
+            if throttle > 200 :
+                #feuermodus
+                self.car_list[id].throttle = self.minThrottle_live
+                self.tank_list[id].trigger = True
+                self.car_list[id].steeringAngle = 0
+            else:
+                self.tank_list[id].trigger = False 
+                if  self.tank_list[id].obstacle == 1:
+                    self.car_list[id].throttle = self.maxThrottle_live - 5
+                elif  self.tank_list[id].obstacle == 2:
+                    self.car_list[id].throttle = 0
+                else:
+                    self.car_list[id].throttle = self.maxThrottle_live 
+                self.car_list[id].steeringAngle = steering - self.offset
+            self.steer = steering - self.offset
         else:
-            self.tank_list[id].trigger = False 
-            throttle_val = self.maxThrottle 
-            self.car_list[id].steeringAngle = steering
-        self.steer = steering - self-offset
-        if not self.tank_list[id].hit:
-            self.car_list[id].throttle = throttle_val
-        else:
+            self.steer = 0
             self.car_list[id].throttle = 0
-            
+            self.car_list[id].steeringAngle = 0
+
+        if self.tank_list[id].obstacle == 3:
+            self.car_list[id].steeringAngle*=-1
+        steer_override = limitToUInt8(self.car_list[id].steeringAngle + self.offset)
+        throttle_override = limitToUInt8(self.car_list[id].throttle + self.offset)
+        self.remote.set_override_out_both(self.remote_ip+str(id), steer_override, throttle_override)
+           
     def steerTanks_debug(self, id):
         if not self.hit:
             if keyboard.is_pressed("f"):

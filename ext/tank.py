@@ -20,7 +20,7 @@ class Tank:
         self.trigger = False
         self.lasttrigger = False
         self.bullets = []
-        #self.hit = False
+        self.obstacle = 0 # 0 = keins, 1= sand, 2 = stone, 3 = fog, 4 = bermuda
         
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
@@ -44,11 +44,12 @@ class Tank:
                 self.aim = 0 + self.aim-360
             self.lasttrigger = True
         elif self.trigger == False:
-            if self.lasttrigger == True:
+            if self.lasttrigger == True and not (self.obstacle == 2 or self.obstacle == 4):
                 self.bullets.append(Bullet(self.rot+self.aim, self.pos, colors[self.id]))
                 self.lasttrigger = False
-        screen.blit(*self.assignRot(self.body, self.rot))
-        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+        if not self.obstacle == 4:
+            screen.blit(*self.assignRot(self.body, self.rot))
+            screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
         print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
         
         hitEnemy = False

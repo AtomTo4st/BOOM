@@ -1,7 +1,7 @@
-import pygame, numpy as np
+import pygame
 from collections import namedtuple
 from _operator import pos
-from tank import Tank
+from ext.tank import Tank
 
 Position = namedtuple("Position", ["x", "y"])
 
@@ -30,46 +30,46 @@ class Obstacle(pygame.sprite.Sprite):
                     return obs.type
             return ""
         
-class Sand(pygame.sprite.Sprite):
+class Sand():
     
     #Why am I so slow? :/
     
     #Effect: Sand reduces the velocity of the player, for instance the tank
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
+    def __init__(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos  
         self.pos2 = pos2
         self.type = "Sand"              
     
-class Stone(pygame.sprite.Sprite):
+class Stone():
     
     #Boom! The player has faced a massive swatter and died instantly
     
     #Effect: Player dies (Tank explodes or smt like that)
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
+    def __init__(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
         self.type = "Stone"
     
-class MagiccccFog(pygame.sprite.Sprite):
+class MagiccccFog():
     
     #Hugh?! Where am I? What is happening to meeee o.0... Ohhh no... My steering was inverted
     
     #Effect: Invert steering
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
+    def __init__(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
         self.type = "MagiccccFog"
     
-class BermuddaHole(pygame.sprite.Sprite):
+class BermuddaHole():
     
     #It's so dark in here... This is the end... The player has been swallowed, he disappeared and he won't return
     
     #Effect: Tank disappeares
     
-    def __init(self, pos = Position(0,0), pos2 = Position(0,0)):
+    def __init__(self, pos = Position(0,0), pos2 = Position(0,0)):
         self.pos = pos
         self.pos2 = pos2
         self.type = "BermuddaHole"
