@@ -37,6 +37,10 @@ class Tank:
         if self.trigger == True:
             print("Trigger pressed")
             self.aim = self.aim + steer/128 * self.turnspeed
+            if self.aim <= 0:
+                self.aim = 360 + self.aim
+            elif self.aim >= 360:
+                self.aim = 0 + self.aim-360
             self.lasttrigger = True
         elif self.trigger == False:
             if self.lasttrigger == True:
@@ -44,6 +48,7 @@ class Tank:
                 self.lasttrigger = False
         screen.blit(*self.assignRot(self.body, self.rot))
         screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+        print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
         for b in self.bullets:
             b.fly()
             if b.hasHit(enemyPos):
@@ -51,7 +56,7 @@ class Tank:
                 print("Hit")
             elif b.isDead(screen.get_width(), screen.get_height()):
                 self.bullets.remove(b)
-            screen.blit(b.img, [b.pos.x,b.pos.y])
+            screen.blit(b.img, [b.pos.x -32,b.pos.y -32])
 
        
 
