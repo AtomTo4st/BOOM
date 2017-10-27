@@ -63,18 +63,22 @@ class Manager:
         
         if throttle < self.offset:
             #feuermodus
-            self.car_list[id].throttle = self.minThrottle
+            throttle_val = self.minThrottle
             self.tank_list[id].trigger = True
             self.car_list[id].steeringAngle = 0 
         else:
             self.tank_list[id].trigger = False 
-            self.car_list[id].throttle = self.maxThrottle 
+            throttle_val = self.maxThrottle 
             self.car_list[id].steeringAngle = steering
         self.steer = steering - self-offset
- 
+        if not self.tank_list[id].hit:
+            self.car_list[id].throttle = throttle_val
+        else:
+            self.car_list[id].throttle = 0
+            
     def steerTanks_debug(self, id):
         if keyboard.is_pressed("f"):
-            self.car_list[id].throttle = self.minThrottle
+            throttle_val = self.minThrottle
             self.car_list[id].steeringAngle = 0
             self.tank_list[id].trigger = True
             if keyboard.is_pressed("a"):
@@ -85,7 +89,7 @@ class Manager:
                 self.steer=0
         else:
             self.tank_list[id].trigger = False 
-            self.car_list[id].throttle = self.maxThrottle 
+            throttle_val = self.maxThrottle 
             if keyboard.is_pressed("a"):
                 self.car_list[id].steeringAngle = -100
                 self.steer = -100
@@ -95,7 +99,10 @@ class Manager:
             else:
                 self.car_list[id].steeringAngle = 0
                 self.steer = 0
-            
+        if not self.tank_list[id].hit:
+            self.car_list[id].throttle = throttle_val
+        else:
+            self.car_list[id].throttle = 0    
 
 def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     mainWindow = BAPI.getWindow()
