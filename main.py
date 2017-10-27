@@ -1,12 +1,11 @@
 import pygame, math, keyboard, time
 from ext.tank import Tank
 from ext.colors import Colors
-from moviepy.editor import VideoFileClip 
+#from moviepy.editor import VideoFileClip 
 try:
     import DasSpiel as BAPI
 except ImportError:
     import DasSpielSimulation as BAPI
-#from moviepy.editor import VideoFileClip 
 # BAPI may stand for "Basler API" :-)
 
 class Manager:
@@ -34,15 +33,8 @@ class Manager:
         
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
-<<<<<<< HEAD
-        intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
-        intro.preview()
-=======
-        
-        #intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
-        #intro.preview()
-
->>>>>>> 4acb79116050739cfcfdb44755e44ae2b89cca7e
+#        intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
+#        intro.preview()
         while self.running == True:
             self.screen.fill(Colors.black)
             for event in pygame.event.get():
@@ -58,8 +50,8 @@ class Manager:
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
-                #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
-                self.steerTanks_debug(i)
+                self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                #self.steerTanks_debug(i)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
                 print("hit:", self.hit)
                 if self.hit:
@@ -72,21 +64,23 @@ class Manager:
         pygame.quit()
     
     def steerTanks(self, id, throttle, steering):
-        
-        if throttle < self.offset:
-            #feuermodus
-            throttle_val = self.minThrottle
-            self.tank_list[id].trigger = True
-            self.car_list[id].steeringAngle = 0 
+        if not self.hit:
+            if throttle < self.offset:
+                #feuermodus
+                self.car_list[id].throttle = self.minThrottle
+                self.tank_list[id].trigger = True
+                self.car_list[id].steeringAngle = 0 
+            else:
+                self.tank_list[id].trigger = False 
+                self.car_list[id].throttle = self.maxThrottle 
+                self.car_list[id].steeringAngle = steering
+            self.steer = steering - self.offset
         else:
-            self.tank_list[id].trigger = False 
-            throttle_val = self.maxThrottle 
-            self.car_list[id].steeringAngle = steering
-        self.steer = steering - self-offset
-        if not self.tank_list[id].hit:
-            self.car_list[id].throttle = throttle_val
-        else:
+            self.steer = 0
             self.car_list[id].throttle = 0
+        steer_override = limitToUInt8((self.steer * 128 // 100) + self.offset)
+        throttle_override = limitToUInt8((self.car_list[id].throttle * 128 // 100) + self.offset)
+        self.remote.set_override_out_both(self.remote_ip+str(id), steer_override, throttle_override)
             
     def steerTanks_debug(self, id):
         if not self.hit:
@@ -126,6 +120,13 @@ def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     #BAPI.closeWindow(name)
     return mainWindow
 
-        
+def limitToUInt8(value):
+    if value > 255:
+        return 255
+    elif value < 0:
+        return 0
+    else:
+        return value;
+       
 manager = Manager()
 manager.main()
