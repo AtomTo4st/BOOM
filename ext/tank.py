@@ -50,6 +50,8 @@ class Tank:
         screen.blit(*self.assignRot(self.body, self.rot))
         screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
         print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
+        
+        hitEnemy = False
         for b in self.bullets:
             b.fly()
             if b.hasHit(enemyPos):

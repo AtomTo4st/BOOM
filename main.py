@@ -53,7 +53,7 @@ class Manager:
                 if hitEnemy:
                      self.tank_list[(i+1)%2].hit = True
                 else:
-                     self.tank_list[(i+1)%2].hit = True
+                     self.tank_list[(i+1)%2].hit = False
             pygame.display.update()
             self.clock.tick(30)
         
@@ -102,7 +102,10 @@ class Manager:
         if not self.tank_list[id].hit:
             self.car_list[id].throttle = throttle_val
         else:
-            self.car_list[id].throttle = 0    
+            print ("Id: ", id, " hit!!")
+            self.car_list[id].throttle = 0
+            pygame.quit()
+            
 
 def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     mainWindow = BAPI.getWindow()
