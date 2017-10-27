@@ -65,7 +65,7 @@ class Manager:
     
     def steerTanks(self, id, throttle, steering):
         if not self.hit:
-            if throttle < self.offset:
+            if throttle > 200 :
                 #feuermodus
                 self.car_list[id].throttle = self.minThrottle
                 self.tank_list[id].trigger = True
