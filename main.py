@@ -23,7 +23,9 @@ class Manager:
         self.remote_ip="192.168.0.10"
         self.offset = 128
         self.minThrottle = 5
+        self.minThrottle_live = 28
         self.maxThrottle = 10
+        self.maxThrottle_live = 35
         self.steer = 0
         self.hit = False
     
@@ -67,19 +69,21 @@ class Manager:
         if not self.hit:
             if throttle > 200 :
                 #feuermodus
-                self.car_list[id].throttle = self.minThrottle
+                self.car_list[id].throttle = self.minThrottle_live
                 self.tank_list[id].trigger = True
-                self.car_list[id].steeringAngle = 0 
+                self.car_list[id].steeringAngle = 0
             else:
                 self.tank_list[id].trigger = False 
-                self.car_list[id].throttle = self.maxThrottle 
-                self.car_list[id].steeringAngle = steering
+                self.car_list[id].throttle = self.maxThrottle_live 
+                self.car_list[id].steeringAngle = steering - self.offset
             self.steer = steering - self.offset
         else:
             self.steer = 0
             self.car_list[id].throttle = 0
-        steer_override = limitToUInt8((self.steer * 128 // 100) + self.offset)
-        throttle_override = limitToUInt8(self.car_list[id].throttle  + self.offset)
+            self.car_list[id].steeringAngle = 0
+
+        steer_override = self.car_list[id].steeringAngle + self.offset
+        throttle_override = self.car_list[id].throttle + self.offset
         self.remote.set_override_out_both(self.remote_ip+str(id), steer_override, throttle_override)
             
     def steerTanks_debug(self, id):
