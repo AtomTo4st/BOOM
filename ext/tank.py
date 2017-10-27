@@ -20,6 +20,7 @@ class Tank:
         self.trigger = False
         self.lasttrigger = False
         self.bullets = []
+        #self.hit = False
         
     def assignRot(self, pic, rot):
         rotated = pygame.transform.rotate(pic, rot + 270)
@@ -27,27 +28,40 @@ class Tank:
         rect.center = (self.pos.x - (rect[2] / 2), self.pos.y - (rect[2] / 2))
         return rotated, rect.center
     
-    def draw(self, screen, pos=None, rot=None, steer=0):
+    def draw(self, screen, pos=None, rot=None, steer=0, enemyPos=Position(0,0)):
         if pos != None:
             self.pos = pos
         if rot != None:
             self.rot = rot
         
-        screen.blit(*self.assignRot(self.body, self.rot))
-        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
-        
+         
         if self.trigger == True:
-            self.aim = self.aim + steer/128 * turnspeed
+            print("Trigger pressed")
+            self.aim = self.aim + steer/128 * self.turnspeed
+            if self.aim <= 0:
+                self.aim = 360 + self.aim
+            elif self.aim >= 360:
+                self.aim = 0 + self.aim-360
             self.lasttrigger = True
         elif self.trigger == False:
             if self.lasttrigger == True:
-                self.bullets.append(Bullet(self.rot+self.aim, self.pos, self.color))
+                self.bullets.append(Bullet(self.rot+self.aim, self.pos, colors[self.id]))
                 self.lasttrigger = False
+        screen.blit(*self.assignRot(self.body, self.rot))
+        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+        print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
         
-        for b in range(len(self.bullets)):
+        hitEnemy = False
+        for b in self.bullets:
             b.fly()
-            if b.isDead(1800, 1200, enemyPos):
-                pass
-            screen.blit(b.img, b.pos)
-        
-        return screen
+            if b.hasHit(enemyPos):
+                self.bullets.remove(b)
+                hitEnemy = True
+                print("Hit")
+            elif b.isDead(screen.get_width(), screen.get_height()):
+                self.bullets.remove(b)
+            screen.blit(b.img, [b.pos.x -32,b.pos.y -32])
+
+       
+
+        return screen, hitEnemy

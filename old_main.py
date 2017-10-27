@@ -13,7 +13,7 @@ imageio.plugins.ffmpeg.download()
 '''
 
 pygame.init()
-pygame.mixer.init(channels = 4)
+
 
 
 screen_w = 1200
@@ -77,12 +77,16 @@ def draw_shoot(list, img_shoot, other_player_pos):
 
         
 
-screen = pygame.display.set_mode((screen_w,screen_h))
+screen = pygame.display.set_mode((screen_w,screen_h))#, pygame.FULLSCREEN)
 pygame.display.set_caption("B00M")
 
-#clip = VideoFileClip('assets/Animationen_Daniel/Main_Animation.mp4')
-#clip.preview()
-screen = pygame.display.set_mode((screen_w,screen_h))
+'''
+intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
+intro.preview()
+'''
+
+pygame.mixer.init(channels = 4)
+screen = pygame.display.set_mode((screen_w,screen_h))#, pygame.FULLSCREEN)
 
 img_player_1_tank = pygame.image.load("assets/pictures/tank_red_bottom.png")
 img_player_1_gun = pygame.image.load("assets/pictures/tank_red_top.png")
@@ -93,6 +97,7 @@ img_player_2_gun = pygame.image.load("assets/pictures/tank_green_top.png")
 img_player_1_shoot = pygame.image.load("assets/pictures/bullet_red.png")
 img_player_2_shoot = pygame.image.load("assets/pictures/bullet_green.png")
 
+img_background = pygame.image.load("assets/pictures/grass.png")
 shoot_sound = "assets/sfx/tank_firing.ogg"
 start_music = "assets/fertiges_animationen_audio/test.wav"
 loop_sound = "assets/fertiges_animationen_audio/loop_boom.mp3"
@@ -161,7 +166,7 @@ while fail == False:
     
     player_1_pos = new_pos(player_1_pos[0], player_1_pos[1], player_1_rotation, player_1_speed)
     player_2_pos = new_pos(player_2_pos[0], player_2_pos[1], player_2_rotation, player_2_speed)
-    
+    '''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             fail = True
@@ -181,6 +186,8 @@ while fail == False:
             if event.key == pygame.K_q:
                 k_q = True
                 player_2_speed = 3
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 k_left = False
@@ -223,11 +230,25 @@ while fail == False:
             player_2_gun_rotation -= player_2_gun_rotation_plus
         else:
             player_2_rotation -= player_2_rotation_plus
+    '''
+    
+    
+    
+    
                   
     if player_1_rotation >= 360:
         player_1_rotation = 0
     if player_2_rotation >= 360:
         player_2_rotation = 0
+      
+      
+      
+      
+      
+      
+      
+      
+      
         
     #pygame.draw.circle(screen, colors.red, player_2_pos, 50, )
     show_player(img_player_1_tank, player_1_pos, player_1_rotation)
