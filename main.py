@@ -2,6 +2,8 @@ import pygame, math, keyboard, time, os
 from ext.tank import Tank
 from ext.colors import Colors
 from moviepy.editor import VideoFileClip 
+from ext.obstacles import Obstacle
+
 try:
     import DasSpiel as BAPI
 except ImportError:
@@ -35,6 +37,9 @@ class Manager:
         pygame.init()
         menu_gif = 0
         
+        background = pygame.image.load(os.path.join(os.getcwd(),"assets/pictures/background_obstacles.png"))
+        self.screen.blit(background, (0,0))
+        
         img_play = pygame.image.load("assets/fertiges_animationen_audio/play_button.png")
         img_shop = pygame.image.load("assets/fertiges_animationen_audio/shop_logo.png")
         
@@ -44,7 +49,8 @@ class Manager:
         select = 1
         running = True
         while running:
-            self.screen.fill((0,0,0))
+            self.screen.fill((255,255,255))
+            self.screen.blit(background, (0,0))
             
             menu_gif += 1
             if menu_gif == 32:
