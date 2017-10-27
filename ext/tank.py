@@ -42,7 +42,8 @@ class Tank:
             if self.lasttrigger == True:
                 self.bullets.append(Bullet(self.rot+self.aim, self.pos, colors[self.id]))
                 self.lasttrigger = False
-        
+        screen.blit(*self.assignRot(self.body, self.rot))
+        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
         for b in self.bullets:
             b.fly()
             if b.hasHit(enemyPos):
@@ -52,7 +53,6 @@ class Tank:
                 self.bullets.remove(b)
             screen.blit(b.img, [b.pos.x,b.pos.y])
 
-        screen.blit(*self.assignRot(self.body, self.rot))
-        screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
+       
 
         return screen

@@ -8,9 +8,8 @@ Position = namedtuple("Position", ["x","y"])
 class Bullet:
     def __init__(self, direction=0, pos=Position(0,0), color="grey", hitradius=25, speed=10):
         self.direction = direction
-        pos.x += int(30 * math.sin(math.radians(self.direction)))
-        pos.y += int(30 * math.sin(math.radians(self.direction)))
-        self.pos = pos
+        self.pos = Position( pos.x + int(30 * math.sin(math.radians(self.direction)))
+                             ,pos.y + int(30 * math.sin(math.radians(self.direction))))
         self.speed = speed
         self.color = color
         self.hitRadius = hitradius
@@ -28,5 +27,5 @@ class Bullet:
         else:
             return False
     def fly(self):
-        self.pos.x += int(self.speed * math.sin(math.radians(self.direction)))
-        self.pos.y += int(self.speed * math.cos(math.radians(self.direction)))
+        self.pos = Position( self.pos.x + int(self.speed * math.sin(math.radians(self.direction)))
+                             ,self.pos.y + int(self.speed * math.sin(math.radians(self.direction))))
