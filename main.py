@@ -1,6 +1,7 @@
 import pygame, math, keyboard, time
 from ext.tank import Tank
 from ext.colors import Colors
+from moviepy.editor import VideoFileClip 
 try:
     import DasSpiel as BAPI
 except ImportError:
@@ -33,10 +34,15 @@ class Manager:
         
         for i in range(len(self.car_list)):
             self.tank_list.append(Tank(_id=i,pos=self.car_list[i].position,rot=-self.car_list[i].angleInDegree + 90))
+<<<<<<< HEAD
+        intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
+        intro.preview()
+=======
         
         #intro = VideoFileClip('assets/fertiges_animationen_audio/Intro.mpg')
         #intro.preview()
 
+>>>>>>> 4acb79116050739cfcfdb44755e44ae2b89cca7e
         while self.running == True:
             self.screen.fill(Colors.black)
             for event in pygame.event.get():
