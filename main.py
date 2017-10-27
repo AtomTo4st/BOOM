@@ -79,7 +79,7 @@ class Manager:
             self.steer = 0
             self.car_list[id].throttle = 0
         steer_override = limitToUInt8((self.steer * 128 // 100) + self.offset)
-        throttle_override = limitToUInt8((self.car_list[id].throttle * 128 // 100) + self.offset)
+        throttle_override = limitToUInt8(self.car_list[id].throttle  + self.offset)
         self.remote.set_override_out_both(self.remote_ip+str(id), steer_override, throttle_override)
             
     def steerTanks_debug(self, id):
