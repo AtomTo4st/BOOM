@@ -1,7 +1,7 @@
 import pygame, math, keyboard, time, os
 from ext.tank import Tank
 from ext.colors import Colors
-#from moviepy.editor import VideoFileClip 
+from moviepy.editor import VideoFileClip 
 #from ext.obstacles import Obstacle
 
 try:
@@ -31,8 +31,8 @@ class Manager:
         self.hit = False
     
     def menu(self):
-        #intro = VideoFileClip('assets/fertiges_animationen_audio/INTRO_FERTIG.mpg')
-        #intro.preview()
+        intro = VideoFileClip('assets/fertiges_animationen_audio/INTRO_FERTIG.mpg')
+        intro.preview()
         
         pygame.init()
         menu_gif = 0
@@ -137,7 +137,7 @@ class Manager:
                     winner = s+1
                     
             if winner != 0:
-                label = font.render("WINNER IS PLAYER {} ESC to continue".format(s+1), 1, (255,255,0))
+                label = font.render("WINNER IS PLAYER {} ESC to continue".format(s+1), 1, (0,0,0))
                 self.screen.blit(label, (self.screen_width//2, self.screen_height//2))
                 pygame.display.update()
                 self.clock.tick(30)

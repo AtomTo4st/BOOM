@@ -6,7 +6,7 @@ sys.path.append("../")
 Position = namedtuple("Position", ["x","y"])
 
 class Bullet:
-    def __init__(self, direction=0, pos=Position(0,0), color="grey", hitradius=25, speed=10):
+    def __init__(self, direction=0, pos=Position(0,0), color="grey", hitradius=25, speed=20):
         self.direction = direction
         self.pos = Position( pos.x + int(30 * math.sin(math.radians(self.direction)))
                              ,pos.y + int(30 * math.cos(math.radians(self.direction))))
