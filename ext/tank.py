@@ -36,7 +36,7 @@ class Tank:
         self.pos = Position(int(pos.x) + 60, pos.y)
          
         if self.trigger == True:
-            print("Trigger pressed")
+            #print("Trigger pressed")
             self.aim = self.aim + steer/128 * self.turnspeed
             if self.aim <= 0:
                 self.aim = 360 + self.aim
@@ -50,7 +50,7 @@ class Tank:
         if not self.obstacle == 4:
             screen.blit(*self.assignRot(self.body, self.rot))
             screen.blit(*self.assignRot(self.turret, self.rot + self.aim))
-        print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
+        #print(self.id,"; rot: ",self.rot,"; aim: ",self.aim)
         
         hitEnemy = False
         for b in self.bullets:

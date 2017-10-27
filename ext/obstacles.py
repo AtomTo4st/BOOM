@@ -2,12 +2,13 @@ import pygame
 from collections import namedtuple
 from _operator import pos
 from ext.tank import Tank
+from keyboard.keyboard import play
 
 Position = namedtuple("Position", ["x", "y"])
 
 
 
-class Obstacle(pygame.sprite.Sprite):
+class Obstacle():
     
     def __init__(self):
         sand = Sand(Position(0, 891), Position(402, 1200))
@@ -21,14 +22,14 @@ class Obstacle(pygame.sprite.Sprite):
         magiccccFog = MagiccccFog(Position(1320, 750), Position(1800, 1200))
         bermuddaHole = BermuddaHole(Position(1426, 857), Position(1800, 1200))
         
-        self.listObstacles = [sand, sand2, stone, stone2, bermuddaHole, magiccccFog]
-        
+        self.listObstacles = [sand, sand2,sand3,sand4,sand5,sand6, stone, stone2, bermuddaHole, magiccccFog]
+
     def onObstacle(self, playerPos = Position(0,0)):
         for obs in self.listObstacles:
             if playerPos.x > obs.pos.x and playerPos.x < obs.pos2.x:
                 if playerPos.y > obs.pos.y and playerPos.y < obs.pos2.y:
                     return obs.type
-            return ""
+        return ""
         
 class Sand():
     

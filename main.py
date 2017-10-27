@@ -55,11 +55,10 @@ class Manager:
                               BAPI.getWindow().carManager.getListOfCars()[0].position.x,
                               BAPI.getWindow().carManager.getListOfCars()[0].angle))'''
             for i in range(len(self.tank_list)):
-                self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
-                #self.steerTanks_debug(i)
                 if obst.onObstacle(self.car_list[i].position) == "Sand":
                     # geschwindigkeit reduzieren
                     self.tank_list[i].obstacle = 1
+                    print("SAAAAAND")
                 elif obst.onObstacle(self.car_list[i].position) == "Stone":
                     #zuende
                     self.tank_list[i].obstacle = 2
@@ -69,10 +68,14 @@ class Manager:
                 elif obst.onObstacle(self.car_list[i].position) == "BermuddaHole":
                     #unsichtbar, kann nicht schiessen
                     self.tank_list[i].obstacle = 4
+                else:
+                     self.tank_list[i].obstacle = 0
+                #self.steerTanks(i,self.remote.get_in_throttle(self.remote_ip + str(i)),self.remote.get_in_steer(self.remote_ip + str(i)))
+                self.steerTanks_debug(i)
 
                 #self.screen, self.hit = self.tank_list[i].draw(self.screen,Position(self.car_list[i].position.x + 60, self.car_list[i].position.y), -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
                 self.screen, self.hit = self.tank_list[i].draw(self.screen,self.car_list[i].position, -self.car_list[i].angleInDegree + 90, self.steer,  self.car_list[(i+1)%2].position)
-                print("hit:", self.hit)
+                #print("hit:", self.hit)
                 if self.hit:
                     pygame.quit()
                 
@@ -112,7 +115,18 @@ class Manager:
         self.remote.set_override_out_both(self.remote_ip+str(id), steer_override, throttle_override)
            
     def steerTanks_debug(self, id):
-        if not self.hit:
+        if keyboard.is_pressed("f"):
+            throttle=201
+        else :
+            throttle = 0
+        if keyboard.is_pressed("a"):
+            steer = 28
+        elif keyboard.is_pressed("d"):
+            steer = 228
+        else:
+            steer = 128
+        self.steerTanks(id, throttle, steer)
+        '''if not self.hit:
             if keyboard.is_pressed("f"):
                 self.car_list[id].throttle = self.minThrottle
                 self.car_list[id].steeringAngle = 0
@@ -138,7 +152,7 @@ class Manager:
         else:
             self.car_list[id].throttle = 0
             self.car_list[id].steeringAngle = 0
-            self.steer = 0
+            self.steer = 0'''
             
 
 def initMainWindow(name, fieldWidthPx, fieldHeightPx):
@@ -148,6 +162,15 @@ def initMainWindow(name, fieldWidthPx, fieldHeightPx):
     mainWindow.showFPS = True
     #BAPI.closeWindow(name)
     return mainWindow
+
+def limitToUInt8(value):
+    if value > 255:
+        return 255
+    elif value < 0:
+        return 0
+    else:
+        return value;
+       
 
         
 manager = Manager()
